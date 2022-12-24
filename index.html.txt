@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>test.mosquitto.org</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<link rel="icon" href="img/favicon-16x16.png" sizes="16x16">
+<link rel="icon" href="img/favicon-32x32.png" sizes="32x32">
+</head>
+
+<body>
+<!--<h1>test.mosquitto.org</h1>-->
+<h1><img src="mosquitto-text-side.png" width="300" height="60"></h1>
+
+<div id="left">
+<h2>MQTT</h2>
+<p>This is test.mosquitto.org. It hosts a publicly available <a
+href="https://mosquitto.org/">Eclipse Mosquitto</a> MQTT server/broker. MQTT is a very
+lightweight protocol that uses a publish/subscribe model. This makes it
+suitable for "machine to machine" messaging such as with low power sensors or
+mobile devices.</p>
+
+<p>For more information on MQTT, see <a
+href="http://mqtt.org/">http://mqtt.org/</a> or the Mosquitto <a
+href="https://mosquitto.org/man/mqtt-7.html">MQTT man page</a>.</p>
+
+<p>If you are interested in your own hosted instance of Mosquitto you should
+look at the <a href="https://cedalo.com/products/mosquitto/">Cedalo</a>
+offering. Cedalo are the company that sponsor the main development of
+Mosquitto.</p>
+
+<h2>The server</h2>
+<p>The server listens on the following ports:</p>
+
+<ul>
+	<li>1883 : MQTT, unencrypted, unauthenticated</li>
+	<li>1884 : MQTT, unencrypted, authenticated</li>
+	<li>8883 : MQTT, encrypted, unauthenticated</li>
+	<li>8884 : MQTT, encrypted, client certificate required</li>
+	<li>8885 : MQTT, encrypted, authenticated</li>
+	<li>8886 : MQTT, encrypted, unauthenticated</li>
+	<li>8887 : MQTT, encrypted, server certificate deliberately expired</li>
+	<li>8080 : MQTT over WebSockets, unencrypted, unauthenticated</li>
+	<li>8081 : MQTT over WebSockets, encrypted, unauthenticated</li>
+	<li>8090 : MQTT over WebSockets, unencrypted, authenticated</li>
+	<li>8091 : MQTT over WebSockets, encrypted, authenticated</li>
+</ul>
+<p>The encrypted ports support TLS v1.3, v1.2 or v1.1 with x509 certificates
+and require client support to connect.  For ports 8883 and 8884 you should use the
+certificate authority file (<a href="ssl/mosquitto.org.crt">mosquitto.org.crt 
+(PEM format)</a>, or <a href="ssl/mosquitto.org.der">mosquitto.org.der (DER
+format)</a>) to verify the server connection. Ports 8081 and 8886 have a Lets Encrypt
+certificate, so you should use your system CA certificates or the appropriate
+Lets Encrypt CA certificate for verification.</p>
+<p>Port 8884 requires clients to
+provide a certificate to authenticate their connection. You can
+<a href="/ssl">generate your own certificate</a>.</p>
+
+<p>The <a href="/config">configuration</a> is available to view.</p>
+
+<h2>Authentication and topic access</h2>
+
+<p>Unauthenticated clients have access to publish all topics. Clients can also
+subscribe to all topics with the exception of the literal <b>#</b> topic.</p>
+
+<p>Connecting with the username <b>wildcard</b> will allow a subscription to
+<b>#</b> to succeed for 20 seconds before being automatically removed. This
+allows discovery of topics of interest.</p>
+
+<p>The authenticated listeners require a username / password:</p>
+<ul>
+	<li><b>rw</b> / <b>readwrite</b> : read/write access to the <b>#</b> topic hierarchy</li>
+	<li><b>ro</b> / <b>readonly</b> : read only access to the <b>#</b> topic hierarchy</li>
+	<li><b>wo</b> / <b>writeonly</b> : write only access to the <b>#</b> topic hierarchy</li>
+</ul>
+
+</div>
+
+<div id="right">
+<p>You are free to use it for any application, but please do not abuse or rely
+upon it for anything of importance. This server runs on an Intel Atom N2800,
+and as such is a low power device. It is not intended to demonstrate any
+performance characteristics.</p>
+
+<p>You should also build your client to cope
+with the broker restarting.</p> <p>If you have the mosquitto clients installed
+try: <ul><li>mosquitto_sub -h test.mosquitto.org -t "#" -u wildcard -v</li></ul></p>
+
+<p>Please don't publish anything sensitive, anybody could be listening.</p>
+
+<h2>Caveats</h2>
+<p>This server is provided as a service for the community to do testing, but it
+is also extremely useful for testing the server. This means that it will often
+be running unreleased or experimental code and may not be as stable as you might
+hope. It may also be slow - the broker often runs under <a
+href="http://valgrind.org/">valgrind</a> or <a
+href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. Finally, not
+all of the features may be available all of the time, depending on what testing
+is being done. In particular, websockets and TLS support are the most likely to
+be unavailable.</p>
+
+<p>In general you can expect the server to be up and to be stable though.</p>
+
+<h2>Get in touch</h2>
+<p>Come and discuss the Mosquitto project on <a href="https://eclipse-iot-wg.slack.com/join/shared_invite/zt-d8zil9s0-NF5UHh92Odf3AbonspswHA#/">Slack</a> (go to the Mosquitto channel).</p>
+<p>If you do publish things to this server on a regular basis, please get in
+touch to satisfy my curiosity - there are lots of topics that look interesting
+but I know nothing about.  I'm <strong>ral</strong> on the <a
+href="http://libera.chat">libera.chat #mqtt irc
+channel</a>, or see the mosquitto source for contact details..</p>
+
+
+<h2>Examples using this service</h2>
+<ul>
+<li><a href="http://test.mosquitto.org/sys/">Websockets $SYS tree for test.mosquitto.org</a></li>
+<li><a href="https://test.mosquitto.org/sys/ssl.html">Websockets $SYS tree for test.mosquitto.org (TLS)</a></li>
+</ul>
+
+<h2>Keep the service running</h2>
+<p>Please sponsor this service so we can move to a more powerful server.</p>
+<div style="display: flex; justify-content: center;">
+<iframe src="https://github.com/sponsors/ralight/button" title="Sponsor ralight" height="35" width="116" style="border: 0;"></iframe>
+</div>
+<br/>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal â€” The safer, easier way to pay online." style="display: block; margin: 0 auto;">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+<h2>Get your own server</h2>
+<p>If you have outgrown this public server and would like your own, you have a few options.
+<ul>
+	<li>Host your own broker - this is fairly straightforward to do and will run on any general purpose cloud instance or local server.</li>
+	<li>Use a hosted service - <a href="https://cedalo.com/">Cedalo</a> offers managed hosted Mosquitto instances.</li>
+	<li>Use a supported on-premise broker - <a href="https://cedalo.com/">Cedalo</a> will support your
+	use of Mosquitto, offer consulting for building your system or
+	developing features to your requirements, and have premium features
+	available for Mosquitto.</li>
+</ul>
+</div>
+</body>
+</html>
